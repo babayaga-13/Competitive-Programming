@@ -24,34 +24,29 @@ ll power(ll a, ll n)
     while (n)
     {
         if (n % 2)
-            ans = (ans * a) % N, n--;
+            ans = ((__int128_t)ans * a) % N, n--;
         else
-            a = (a * a) % N, n /= 2;
+            a = ((__int128_t)a * a) % N, n /= 2;
     }
     return ans;
 }
 
 void solve()
 {
-    ll n, k, s = 0;
-    cin >> n >> k;
-    vector<ll> a(n);
+    int n, a, b;
+    cin >> n >> a >> b;
+    int g = gcd(a, b);
+    int v[n];
     for (int i = 0; i < n; i++)
     {
-        cin >> a[i];
-        s += a[i] % N;
+        cin >> v[i];
+        v[i] %= g;
     }
-    s = (s % N + N) % N;
-    ll x = 0, c = 0;
-    for (int i = 0; i < n; i++)
-    {
-        c += a[i] % N;
-        c = max(c, 0LL);
-        x = max(x, c);
-    }
-    x %= N;
-    ll ans = (s + (power(2, k) - 1) * x % N + N) % N;
-    cout << (ans % N + N) % N << endl;
+    sort(v, v + n);
+    int ans = v[n - 1] - v[0];
+    for (int i = 0; i < n - 1; i++)
+        ans = min(ans, (v[i] + g - v[i + 1]));
+    cout << ans << endl;
 }
 
 signed main()
