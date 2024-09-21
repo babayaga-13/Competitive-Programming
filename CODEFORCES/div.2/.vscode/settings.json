@@ -69,6 +69,7 @@
     "cmath": "cpp",
     "complex": "cpp",
     "cstdlib": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "vector": "cpp"
   }
 }

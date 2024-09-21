@@ -24,24 +24,71 @@ int main()
 
     while (t--)
     {
+
         string a, b;
         cin >> a >> b;
+
         int n = a.size(), m = b.size();
-        int ans = n + m;
+
+        vector<vector<int>> v(26);
+        for (int i = 0; i < n; i++)
+        {
+            v[a[i] - 'a'].push_back(i);
+        }
+        vector<string> st;
         for (int i = 0; i < m; i++)
         {
-            int c = 0, indx = i;
-            for (int j = 0; j < n && indx < m; j++)
+            string x;
+            for (int j = i; j < m; j++)
             {
-                if (a[j] == b[indx])
+                x += b[j];
+                st.push_back(x);
+            }
+        }
+
+        int ans = n + m;
+        for (auto &y : st)
+        {
+            int z = -1;
+            bool found = true;
+
+            for (char k : y)
+            {
+                auto it = upper_bound(v[k - 'a'].begin(), v[k - 'a'].end(), z);
+
+                if (it == v[k - 'a'].end())
                 {
-                    c++;
-                    indx++;
+                    found = false;
+                    break;
+                }
+                else
+                {
+                    z = *it;
                 }
             }
-            ans = min(ans, n + m - c);
+
+            if (found)
+            {
+                ans = min(ans, n + m - (int)y.size());
+            }
         }
         cout << ans << endl;
+
+        // int ans = n + m;
+        // for (int i = 0; i < m; i++)
+        // {
+        //     int c = 0, indx = i;
+        //     for (int j = 0; j < n && indx < m; j++)
+        //     {
+        //         if (a[j] == b[indx])
+        //         {
+        //             c++;
+        //             indx++;
+        //         }
+        //     }
+        //     ans = min(ans, n + m - c);
+        // }
+        // cout << ans << endl;
     }
 
     return 0;
