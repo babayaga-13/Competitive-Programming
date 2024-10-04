@@ -34,15 +34,26 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, q;
+    ll n, q;
     cin >> n >> q;
-
-    vector<long long> x(n);
-    int y[n + 1] = {0};
-    for (int i = 0; i < n; ++i)
+    vector<ll> v(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    map<ll, ll> mp;
+    mp[n - 1]++;
+    for (int i = 1; i < n; i++)
     {
-        cin >> x[i];
+        mp[i * (n - i)] += (v[i] - v[i - 1] - 1);
+        mp[(i * (n - i)) + (n - i - 1)]++;
     }
+
+    while (q--)
+    {
+        ll x;
+        cin >> x;
+        cout << mp[x] << " ";
+    }
+    ln;
 }
 
 signed main()

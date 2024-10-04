@@ -36,7 +36,12 @@ void solve()
 {
     ll k;
     cin >> k;
-    cout << k + int(sqrtl(k) + 0.5) << "\n";
+    ll l = k;
+    ll x = sqrtl(k);
+    ll ans = k + x;
+    if (ans - (ll)sqrtl(ans) < k)
+        ans++;
+    cout << ans << endl;
 }
 
 signed main()
