@@ -34,13 +34,24 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, m, k;
-    cin >> n >> m >> k;
-    ll x = (n + m - 1) / m;
-    if (n - x > k)
-        yes;
-    else
-        no;
+    int n;
+    cin >> n;
+    int b[n];
+    vector<pair<int, int>> a(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i].first;
+        a[i].second = i;
+    }
+    for (int i = 0; i < n; i++)
+        cin >> b[i];
+    sort(all(a));
+    for (int i = 0; i < n; i++)
+        cout << a[i].first << " ";
+    ln;
+    for (int i = 0; i < n; i++)
+        cout << b[a[i].second] << " ";
+    ln;
 }
 
 signed main()

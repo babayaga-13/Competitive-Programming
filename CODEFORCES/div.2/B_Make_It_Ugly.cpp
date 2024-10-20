@@ -34,13 +34,26 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, m, k;
-    cin >> n >> m >> k;
-    ll x = (n + m - 1) / m;
-    if (n - x > k)
-        yes;
-    else
-        no;
+    int n;
+    cin >> n;
+    int a[n];
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+
+    int ans = n;
+    int x = -1;
+    for (int i = 1; i < n; i++)
+    {
+        if (a[0] != a[i])
+        {
+            ans = min(ans, i - x - 1);
+            x = i;
+        }
+    }
+    ans = min(ans, n - x - 1);
+    if (ans == n)
+        ans = -1;
+    cout << ans << endl;
 }
 
 signed main()
@@ -50,7 +63,7 @@ signed main()
     cout.tie(NULL);
     ll t = 1;
     cin >> t;
-    while (t--)
+    for (int i = 1; i <= t; i++)
     {
         solve();
     }

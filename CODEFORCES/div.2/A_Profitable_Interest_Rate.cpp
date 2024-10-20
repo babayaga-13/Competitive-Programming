@@ -34,13 +34,18 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, m, k;
-    cin >> n >> m >> k;
-    ll x = (n + m - 1) / m;
-    if (n - x > k)
-        yes;
+    int a, b;
+    cin >> a >> b;
+    if (a >= b)
+        cout << a << endl;
     else
-        no;
+    {
+        a -= (b - a);
+        if (a > 0)
+            cout << a << endl;
+        else
+            cout << 0 << endl;
+    }
 }
 
 signed main()

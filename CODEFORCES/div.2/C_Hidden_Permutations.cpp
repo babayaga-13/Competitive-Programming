@@ -34,20 +34,32 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, m, k;
-    cin >> n >> m >> k;
-    ll x = (n + m - 1) / m;
-    if (n - x > k)
-        yes;
-    else
-        no;
+    int n;
+    cin >> n;
+    int a[n + 1] = {0};
+    for (int i = 1; i <= n; i++)
+        if (a[i] == 0)
+        {
+            int x = 0;
+            while (1)
+            {
+                cout << "? " << i << endl;
+                int y;
+                cin >> y;
+                a[x] = y;
+                x = y;
+                if (a[x])
+                    break;
+            }
+        }
+    cout << "! ";
+    for (int i = 1; i <= n; i++)
+        cout << a[i] << " ";
+    cout << endl;
 }
 
 signed main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
     ll t = 1;
     cin >> t;
     while (t--)

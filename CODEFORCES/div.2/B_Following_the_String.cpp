@@ -34,13 +34,25 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, m, k;
-    cin >> n >> m >> k;
-    ll x = (n + m - 1) / m;
-    if (n - x > k)
-        yes;
-    else
-        no;
+    int n;
+    cin >> n;
+    int a[n], c[n] = {0};
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    string s;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < 26; j++)
+        {
+            if (c[j] == a[i])
+            {
+                s += ('a' + j);
+                c[j]++;
+                break;
+            }
+        }
+    }
+    cout << s << endl;
 }
 
 signed main()
