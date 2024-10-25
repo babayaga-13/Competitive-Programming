@@ -40,8 +40,8 @@ void solve()
     for (int i = 0; i < n; i++)
         cin >> a[i];
 
-    map<int, int> mp;
-    int s = 0, ans = 0, x = -1;
+    map<ll, ll> mp;
+    ll s = 0, ans = 0, x = -1;
 
     mp[0] = -1;
 
