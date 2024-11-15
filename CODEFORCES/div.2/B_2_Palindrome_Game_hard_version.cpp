@@ -33,39 +33,45 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    ll n, c, q;
+    ll n;
+    cin >> n;
     string s;
-    cin >> n >> c >> q >> s;
-    vector<ll> index;
-    vector<pair<ll, ll>> segment;
-    segment.push_back({0, n - 1});
-    index.push_back(0);
-    index.push_back(n);
-    ll l, r;
-    for (int i = 0; i < c; i++)
+    cin >> s;
+    int c = 0, c1 = 0;
+    for (int i = 0; i < n; i++)
     {
-
-        cin >> l >> r;
-        l--, r--;
-        segment.push_back({l, r});
-        index.push_back(index.back() + (r - l + 1));
+        if (s[i] == '0')
+            c++;
     }
-
-    while (q--)
+    for (int i = 0; i < n / 2; i++)
     {
-        ll x;
-        cin >> x;
-        x--;
-        ll ans;
-        for (int i = c; i >= 0; i--)
+        if (s[i] != s[n - i - 1])
         {
-            if (x < index[i + 1] && x >= index[i])
-            {
-                x = x - index[i];
-                x += segment[i].first;
-            }
+            c1++;
         }
-        cout << s[x] << endl;
+    }
+    if (!c1)
+    {
+        if (c % 2 == 0)
+        {
+            cout << "BOB\n";
+        }
+        else
+        {
+            if (c == 1)
+                cout << "BOB\n";
+            else
+                cout << "ALICE\n";
+        }
+    }
+    else
+    {
+        if (c == 2 && c1 == 1)
+        {
+            cout << "DRAW\n";
+        }
+        else
+            cout << "ALICE\n";
     }
 }
 

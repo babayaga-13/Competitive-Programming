@@ -33,40 +33,31 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    ll n, c, q;
-    string s;
-    cin >> n >> c >> q >> s;
-    vector<ll> index;
-    vector<pair<ll, ll>> segment;
-    segment.push_back({0, n - 1});
-    index.push_back(0);
-    index.push_back(n);
-    ll l, r;
-    for (int i = 0; i < c; i++)
+    ll n, m;
+    cin >> n >> m;
+    ll ans = 0;
+    map<ll, ll> mp;
+    for (int i = 0; i < n; i++)
     {
-
-        cin >> l >> r;
-        l--, r--;
-        segment.push_back({l, r});
-        index.push_back(index.back() + (r - l + 1));
-    }
-
-    while (q--)
-    {
-        ll x;
+        int x;
         cin >> x;
-        x--;
-        ll ans;
-        for (int i = c; i >= 0; i--)
-        {
-            if (x < index[i + 1] && x >= index[i])
-            {
-                x = x - index[i];
-                x += segment[i].first;
-            }
-        }
-        cout << s[x] << endl;
+        mp[x % m]++;
     }
+    if (mp[0])
+        ans++;
+    for (int i = 1; i <= m / 2; i++)
+    {
+        if (mp[i] == 0 && mp[m - i] == 0)
+            continue;
+        else
+        {
+            if (abs(mp[i] - mp[m - i]) < 2)
+                ans++;
+            else
+                ans += abs(mp[i] - mp[m - i]);
+        }
+    }
+    cout << ans << endl;
 }
 
 signed main()
