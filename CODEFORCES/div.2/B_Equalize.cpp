@@ -30,15 +30,29 @@ ll power(ll a, ll n)
     }
     return ans;
 }
-ll dp[15] = {0};
+
 void solve()
 {
     ll n;
     cin >> n;
-    ll ans = n / 15;
-    n %= 15;
-
-    cout << ans + dp[n] << endl;
+    vector<ll> v(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    sort(all(v));
+    v.erase(unique(all(v)), v.end());
+    ll m = v.size();
+    ll l = 0, h = 0, ans = 0;
+    while (h < m)
+    {
+        if (v[h] - v[l] < n)
+        {
+            ans = max(ans, h - l + 1);
+            h++;
+        }
+        else
+            l++;
+    }
+    cout << ans << endl;
 }
 
 signed main()
@@ -48,21 +62,6 @@ signed main()
     cout.tie(NULL);
     ll t = 1;
     cin >> t;
-    dp[1] = 1;
-    dp[2] = 2;
-    dp[3] = 1;
-    dp[4] = 2;
-    dp[5] = 3;
-    dp[6] = 1;
-    dp[7] = 2;
-    dp[8] = 3;
-    dp[9] = 2;
-    dp[10] = 1;
-    dp[11] = 2;
-    dp[12] = 2;
-    dp[13] = 2;
-    dp[14] = 3;
-
     while (t--)
     {
         solve();

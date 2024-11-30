@@ -30,15 +30,21 @@ ll power(ll a, ll n)
     }
     return ans;
 }
-ll dp[15] = {0};
+
 void solve()
 {
-    ll n;
-    cin >> n;
-    ll ans = n / 15;
-    n %= 15;
-
-    cout << ans + dp[n] << endl;
+    string s;
+    cin >> s;
+    ll n = s.size(), c;
+    c = s[n - 1] - '0';
+    if (n > 1)
+    {
+        c += (s[n - 2] - '0') * 10;
+    }
+    if (c % 4 == 0)
+        cout << "4\n";
+    else
+        cout << "0\n";
 }
 
 signed main()
@@ -47,22 +53,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
-    dp[1] = 1;
-    dp[2] = 2;
-    dp[3] = 1;
-    dp[4] = 2;
-    dp[5] = 3;
-    dp[6] = 1;
-    dp[7] = 2;
-    dp[8] = 3;
-    dp[9] = 2;
-    dp[10] = 1;
-    dp[11] = 2;
-    dp[12] = 2;
-    dp[13] = 2;
-    dp[14] = 3;
-
+    // cin >> t;
     while (t--)
     {
         solve();
