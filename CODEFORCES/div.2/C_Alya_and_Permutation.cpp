@@ -37,23 +37,38 @@ void solve()
     int n;
     cin >> n;
     int k = 0;
-    int a[n + 1];
-    for (int i = 1; i <= n; i++)
+    if (n & 1)
     {
-        a[i] = i;
+        cout << n << "\n";
+        for (int i = 2; i < n - 1; i++)
+            cout << i << " ";
+        cout << "1 " << n - 1 << " " << n << "\n";
     }
-    if (n % 2 == 0)
-        swap(a[n - 1], a[n - 2]);
-
-    for (int i = 1; i <= n; i++)
+    else
     {
-        if (i % 2)
-            k &= a[i];
+        int x = count_one(n);
+        if (x == 1)
+        {
+            int k;
+            cout
+                << n * 2 - 1 << "\n";
+            for (int i = 2; i < n - 2; i++)
+                cout << i << " ";
+            cout << "1 " << n - 2 << " " << n - 1 << " " << n << "\n";
+        }
         else
-            k |= a[i];
-        cout << k << " ";
+        {
+            int y = 31 - leading_zero(n);
+            cout << power(2, y + 1) - 1 << endl;
+            y = power(2, y) - 1;
+            for (int i = 1; i <= n; i++)
+            {
+                if (i != y)
+                    cout << i << " ";
+            }
+            cout << y << endl;
+        }
     }
-    ln;
 }
 
 signed main()
