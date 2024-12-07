@@ -17,7 +17,7 @@ using namespace std;
 template <typename T>
 using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 1e9 + 7;
+const int N = 2e5 + 7;
 ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
 ll power(ll a, ll n)
 {
@@ -30,15 +30,27 @@ ll power(ll a, ll n)
     }
     return ans;
 }
-ll dp[15] = {0};
+int dp[N];
+ll c[5] = {1, 3, 6, 10, 15};
 void solve()
 {
     ll n;
     cin >> n;
-    ll ans = n / 15;
-    n %= 15;
-
-    cout << ans + dp[n] << endl;
+    if (n <= N)
+    {
+        cout << dp[n] << endl;
+    }
+    else
+    {
+        int ans = (n - N) / 15;
+        n -= 15 * ans;
+        while (n >= N)
+        {
+            n -= 15;
+            ans++;
+        }
+        cout << dp[n] + ans << endl;
+    }
 }
 
 signed main()
@@ -48,21 +60,18 @@ signed main()
     cout.tie(NULL);
     ll t = 1;
     cin >> t;
-    dp[1] = 1;
-    dp[2] = 2;
-    dp[3] = 1;
-    dp[4] = 2;
-    dp[5] = 3;
-    dp[6] = 1;
-    dp[7] = 2;
-    dp[8] = 3;
-    dp[9] = 2;
-    dp[10] = 1;
-    dp[11] = 2;
-    dp[12] = 2;
-    dp[13] = 2;
-    dp[14] = 3;
-
+    dp[0] = 0;
+    for (int i = 1; i < N; i++)
+    {
+        dp[i] = 1e9;
+        for (auto u : c)
+        {
+            if (i - u >= 0)
+            {
+                dp[i] = min(dp[i], dp[i - u] + 1);
+            }
+        }
+    }
     while (t--)
     {
         solve();
