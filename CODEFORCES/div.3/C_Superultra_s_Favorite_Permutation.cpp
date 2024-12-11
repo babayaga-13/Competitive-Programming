@@ -26,40 +26,32 @@ ll power(ll a, ll n)
     {
         if (n % 2)
             ans = ((__int128_t)ans * a) % N, n--;
-        else
-            a = ((__int128_t)a * a) % N, n /= 2;
+        a = ((__int128_t)a * a) % N, n /= 2;
     }
     return ans;
 }
 
 void solve()
 {
-    int n;
+    ll n;
     cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-
-    map<ll, ll> mp;
-    ll s = 0, ans = 0, x = -1;
-
-    mp[0] = -1;
-
-    for (int i = 0; i < n; i++)
+    if (n < 5)
+        cout << "-1\n";
+    else
     {
-        s += a[i];
-        if (mp.count(s) > 0)
+        for (int i = 1; i <= n; i += 2)
         {
-            if (mp[s] >= x)
-            {
-                ans++;
-                x = i;
-            }
+            if (i != 5)
+                cout << i << " ";
         }
-        mp[s] = i;
+        cout << "5 4 ";
+        for (int i = 2; i <= n; i += 2)
+        {
+            if (i != 4)
+                cout << i << " ";
+        }
+        ln;
     }
-
-    cout << ans << endl;
 }
 
 signed main()
