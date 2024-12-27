@@ -33,27 +33,6 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    int a[n + 1] = {0};
-    int x = 1;
-    for (int i = k; i <= n; i += k)
-    {
-        a[i] = x;
-        x++;
-    }
-    for (int i = 1; i <= n; i++)
-    {
-        if (!a[i])
-        {
-            a[i] = x;
-            x++;
-        }
-    }
-    for (int i = 1; i <= n; i++)
-
-        cout << a[i] << " ";
-    ln;
 }
 
 signed main()

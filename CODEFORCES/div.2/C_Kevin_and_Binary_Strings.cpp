@@ -33,29 +33,50 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    int a[n + 1] = {0};
-    int x = 1;
-    for (int i = k; i <= n; i += k)
+    string s;
+    cin >> s;
+    int n = s.size();
+    cout << "1 " << n << " ";
+    int x = 0;
+    for (int i = 0; i < n; i++)
     {
-        a[i] = x;
-        x++;
-    }
-    for (int i = 1; i <= n; i++)
-    {
-        if (!a[i])
+        if (s[i] == '0')
         {
-            a[i] = x;
-            x++;
+            x = i;
+            break;
         }
     }
-    for (int i = 1; i <= n; i++)
+    if (x == 0)
+    {
+        cout << "1 1\n";
+        return;
+    }
+    else
+    {
+        ll m = n - x, l = 1, r = m, j;
+        string s2 = s.substr(x, m);
+        string v2(m, 0);
 
-        cout << a[i] << " ";
-    ln;
+        for (j = 0; j < x; j++)
+        {
+            if (s[j] == '0')
+                continue;
+            string v1(m, 0);
+            for (int i = 0; i < m; i++)
+            {
+                v1[i] = (s[j + i] != s2[i]);
+            }
+            if (v1 > v2)
+            {
+                v2 = v1;
+                l = j + 1;
+                r = j + m;
+            }
+        }
+
+        cout << l << ' ' << r << '\n';
+    }
 }
-
 signed main()
 {
     ios_base::sync_with_stdio(false);

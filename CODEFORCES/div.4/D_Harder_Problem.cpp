@@ -33,26 +33,27 @@ ll power(ll a, ll n)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    int a[n + 1] = {0};
-    int x = 1;
-    for (int i = k; i <= n; i += k)
+    int n;
+    cin >> n;
+    vector<int> v;
+    map<int, int> mp;
+    for (int i = 0; i < n; i++)
     {
-        a[i] = x;
-        x++;
-    }
-    for (int i = 1; i <= n; i++)
-    {
-        if (!a[i])
+        int x;
+        cin >> x;
+        if (mp[x] == 0)
         {
-            a[i] = x;
-            x++;
+            v.push_back(x);
+            mp[x]++;
         }
     }
     for (int i = 1; i <= n; i++)
-
-        cout << a[i] << " ";
+    {
+        if (mp[i] == 0)
+            v.push_back(i);
+    }
+    for (auto u : v)
+        cout << u << " ";
     ln;
 }
 
