@@ -35,26 +35,17 @@ void solve()
 {
     int n, k;
     cin >> n >> k;
-    k %= n;
-    k++;
-    queue<int> q;
+    pbds<int> p;
     for (int i = 1; i <= n; i++)
-        q.push(i);
-    int f = 1;
-    while (!q.empty())
+        p.insert(i);
+    int pos = k % n;
+    while (p.size())
     {
-        int x = q.front();
-        q.pop();
-        if (f % k == 0)
-        {
-            cout << x << " ";
-            f = 1;
-        }
-        else
-        {
-            f++;
-            q.push(x);
-        }
+        int x = *p.find_by_order(pos);
+        cout << x << " ";
+        p.erase(x);
+        if (p.size())
+            pos = (pos + k) % (int)p.size();
     }
 }
 
