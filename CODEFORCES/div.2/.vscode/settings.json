@@ -59,6 +59,7 @@
   "files.associations": {
     "*.embeddedhtml": "html",
     "*.json": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "random": "cpp"
   }
 }
