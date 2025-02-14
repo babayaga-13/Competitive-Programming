@@ -30,26 +30,39 @@ ll power(ll a, ll n)
     }
     return ans;
 }
-ll n, k;
-bool check(ll a[], ll y)
-{
-}
+
 void solve()
 {
+    ll n, k;
     cin >> n >> k;
-    ll a[n], b[n];
+    vector<ll> a(n), b(n);
+    set<ll> s;
     for (int i = 0; i < n; i++)
-        cin >> a[i] >> b[i];
-    sort(b, b + n);
-    ll l = 1, h = INT_MAX;
-    while (l <= h)
     {
-        ll mid = (l + h) / 2;
-        if (check(b, mid))
-            l = mid + 1;
-        else
-            h = mid - 1;
+        cin >> a[i];
+        s.insert(a[i]);
     }
+    for (int i = 0; i < n; i++)
+    {
+        cin >> b[i];
+        s.insert(b[i]);
+    }
+    sort(all(a));
+    sort(all(b));
+    ll ans = 0;
+    for (auto u : s)
+    {
+        int x = int(lower_bound(a.begin(), a.end(), u) - a.begin()); // bought with negative review or not buy
+        int y = int(lower_bound(b.begin(), b.end(), u) - b.begin()); // not buy
+        ll cnt = x - y;
+        if (cnt <= k)
+        {
+            ll s = u * (n - y); // bought trees (n-y)
+            ans = max(ans, s);
+        }
+    }
+
+    cout << ans << "\n";
 }
 
 signed main()
