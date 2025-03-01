@@ -60,6 +60,7 @@
     "*.embeddedhtml": "html",
     "*.json": "cpp",
     "iostream": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "vector": "cpp"
   }
 }
