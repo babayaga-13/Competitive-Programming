@@ -17,7 +17,7 @@ using namespace std;
 template <typename T>
 using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 1e9 + 7;
+const int MOD = 1e9 + 7;
 ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
 ll power(ll a, ll n)
 {
@@ -25,42 +25,55 @@ ll power(ll a, ll n)
     while (n)
     {
         if (n % 2)
-            ans = ((__int128_t)ans * a) % N, n--;
-        a = ((__int128_t)a * a) % N, n /= 2;
+            ans = ((__int128_t)ans * a) % MOD, n--;
+        a = ((__int128_t)a * a) % MOD, n /= 2;
     }
     return ans;
+}
+int phi(int n)
+{
+    int result = n;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            while (n % i == 0)
+                n /= i;
+            result -= result / i;
+        }
+    }
+    if (n > 1)
+        result -= result / n;
+    return result;
 }
 
 void solve()
 {
-    int n, m;
+    ll n, m, x;
     cin >> n >> m;
-    int a[n], b[m];
+    vector<ll> a(n), b(m);
     for (int i = 0; i < n; i++)
         cin >> a[i];
-
     for (int i = 0; i < m; i++)
         cin >> b[i];
-    sort(b, b + m);
-
+    sort(all(b));
     a[0] = min(a[0], b[0] - a[0]);
     for (int i = 1; i < n; i++)
     {
-        if (a[i] + a[i - 1] <= b[m - 1])
+        if (a[i - 1] > b[m - 1] - a[i] && a[i - 1] > a[i])
         {
-            if (a[i] < a[i - 1])
-                a[i] = min(a[i], *lower_bound(a, a + n, a[i] + a[i - 1]) - a[i]);
-            else
-                a[i] = *lower_bound(a, a + n, (a[i] + a[i - 1])) - a[i];
+            no;
+            return;
         }
-        else
-        {
-            if (a[i] < a[i - 1])
-            {
-                no;
-                return;
-            }
-        }
+        auto it = lower_bound(all(b), a[i - 1] + a[i]);
+        if (it == b.end())
+            continue;
+        x = *it;
+
+        if (a[i - 1] > a[i])
+            a[i] = x - a[i];
+        else if (a[i - 1] <= a[i])
+            a[i] = min(a[i], x - a[i]);
     }
     yes;
 }
