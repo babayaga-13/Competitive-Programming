@@ -64,11 +64,11 @@ void solve()
             int c = 0, d = 0, e = 0;
             for (int i = 0; i < n; i++)
             {
-                if (a[k][i] == 0 && a[k][j] == 1)
+                if (a[i][j] == 0 && a[i][k] == 1)
                     c++;
-                else if (a[k][i] == 1 && a[k][j] == 0)
+                else if (a[i][j] == 1 && a[i][k] == 0)
                     e++;
-                else if (a[k][i] == 1 && a[k][j] == 1)
+                else if (a[i][j] == 1 && a[i][k] == 1)
                     d++;
             }
             if (c + e + d == n && c + d >= n / 2 && e + d >= n / 2)
