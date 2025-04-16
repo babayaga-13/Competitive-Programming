@@ -1,14 +1,15 @@
-while (t--)
+if (n % k)
     // {
-    //     int n;
-    //     cin >> n;
-    //     if (chk(n))
+    //     ll s = 1;
+    //     for (int j = 0; j < m; j++)
     //     {
-    //         yes;
-    //     }
-    //     else
-    //     {
-    //         no;
+    //         for (int i = 0; i < n; i++)
+    //         {
+    //             ans[i][j] = s;
+    //             s++;
+    //             if (s > k)
+    //                 s = 1;
+    //         }
     //     }
     // }
-    // return 0;
+    // else
