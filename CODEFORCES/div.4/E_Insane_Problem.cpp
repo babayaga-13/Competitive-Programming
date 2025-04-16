@@ -33,6 +33,17 @@ ll power(ll a, ll n)
 
 void solve()
 {
+    ll k, a, b, c, d;
+    cin >> k >> a >> b >> c >> d;
+    ll p = 1, ans = 0;
+    while (d / p >= a)
+    {
+        ll x = max(a, (c - 1 + p) / p);
+        ll y = min(b, d / p);
+        ans += max(0LL, (y - x + 1));
+        p *= k;
+    }
+    cout << ans << endl;
 }
 
 signed main()
