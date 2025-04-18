@@ -48,9 +48,10 @@ int phi(int n)
 }
 const int N = 1e5 + 7;
 vector<vector<int>> adj;
-vector<int> a(N), b(N), ans;
+vector<int> a(N), b(N), ans, vis(N, 0);
 void dfs(int x, int y, int z)
 {
+    vis[x] = 1;
     a[x] ^= y;
     if (a[x] != b[x])
     {
@@ -59,6 +60,8 @@ void dfs(int x, int y, int z)
     }
     for (auto u : adj[x])
     {
+        if (vis[u])
+            continue;
         dfs(u, z, y);
     }
 }
@@ -71,6 +74,7 @@ void solve()
     {
         int x, y;
         cin >> x >> y;
+        adj[x].push_back(y);
         adj[y].push_back(x);
     }
     for (int i = 1; i <= n; i++)
