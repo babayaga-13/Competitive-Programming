@@ -46,50 +46,24 @@ int phi(int n)
         result -= result / n;
     return result;
 }
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> a(n + 1);
-    for (int i = 1; i <= n; i++)
-    {
-        cin >> a[i];
-    }
-    int x = 1, ans = 0;
-    while (x < n)
-    {
-        x *= 2;
-        for (int i = 1; i <= n; i += x)
-        {
-            if (!is_sorted(a.begin() + i, a.begin() + i + x))
-            {
-                ans++;
-                sort(a.begin() + i, a.begin() + i + x);
-                if (a[i + x - 1] - a[i] != x - 1)
-                {
-                    cout << "-1\n";
-                    return;
-                }
-            }
-            else
-            {
-                if (a[i + x - 1] - a[i] != x - 1)
-                {
-                    cout << "-1\n";
-                    return;
-                }
-            }
-        }
-    }
-    cout << ans << endl;
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    ll x = lcm(a, c);
+    b *= (x / a);
+    d *= (x / c);
+    cout << abs(b - d) << "/" << x;
 }
+
 signed main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
