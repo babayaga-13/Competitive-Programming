@@ -49,13 +49,23 @@ int phi(int n)
 
 void solve()
 {
-    ll a, b, c, d;
-    cin >> a >> b >> c >> d;
-    int x = a * d, y = b * c;
-    int g = gcd(x, y);
-    x /= g;
-    y /= g;
-    printf("%d/%d\n", abs(x - y), max(x, y));
+    ll a, b, k;
+    cin >> a >> b >> k;
+    // ll l = 0, h = k, ans = 0;
+    // while (l <= h)
+    // {
+    //     ll m = (l + h) / 2;
+    //     if (a + m > (b + k - m))
+    //     {
+    //         ans = k - m + 1;
+    //         h = m - 1;
+    //     }
+    //     else
+    //         l = m + 1;
+    // }
+    ll ans = k;
+    ll x = max(0LL, (k - (a - b) + 2) / 2);
+    cout << max(0LL, ans - x + 1) << endl;
 }
 
 signed main()
@@ -64,7 +74,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    // cin >> t;
+    cin >> t;
     while (t--)
     {
         solve();
