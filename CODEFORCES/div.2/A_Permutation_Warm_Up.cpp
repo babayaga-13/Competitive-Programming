@@ -10,10 +10,14 @@
 #define trailing_zero(x) __builtin_ctz(x)
 #define leading_zero(x) __builtin_clz(x)
 #define gcd __gcd
-#define int long long
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
 using namespace std;
+template <typename T>
+using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 1e9 + 7;
+const int MOD = 1e9 + 7;
 ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
 ll power(ll a, ll n)
 {
@@ -21,12 +25,12 @@ ll power(ll a, ll n)
     while (n)
     {
         if (n % 2)
-            ans = ((__int128_t)ans * a) % N, n--;
-        a = ((__int128_t)a * a) % N, n /= 2;
+            ans = ((__int128_t)ans * a) % MOD, n--;
+        a = ((__int128_t)a * a) % MOD, n /= 2;
     }
     return ans;
 }
-int ph(int n)
+int phi(int n)
 {
     int result = n;
     for (int i = 2; i * i <= n; i++)
@@ -42,24 +46,13 @@ int ph(int n)
         result -= result / n;
     return result;
 }
-int x = 5e6 + 2;
-vector<ll> phi(x);
-void phi_1_to_n()
-{
-    for (int i = 0; i <= x; i++)
-        phi[i] = i;
 
-    for (int i = 2; i <= x; i++)
-    {
-        if (phi[i] == i)
-        {
-            for (int j = i; j <= x; j += i)
-                phi[j] -= phi[j] / i;
-        }
-    }
-}
 void solve()
 {
+    long long n;
+    cin >> n;
+
+    cout << (n * n) / 4 + 1 << "\n";
 }
 
 signed main()
@@ -69,14 +62,9 @@ signed main()
     cout.tie(NULL);
     ll t = 1;
     cin >> t;
-    phi_1_to_n();
-    for (int i = 1; i <= x; i++)
-        phi[i] = (phi[i] * phi[i]) + phi[i - 1];
-    for (int i = 0; i < t; i++)
+    while (t--)
     {
-        ll a, b;
-        cin >> a >> b;
-        cout << "case " << i + 1 << ": " << phi[b] - phi[a - 1] << endl;
+        solve();
     }
     return 0;
 }
