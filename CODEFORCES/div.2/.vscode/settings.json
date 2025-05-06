@@ -61,6 +61,9 @@
     "*.json": "cpp",
     "iostream": "cpp",
     "random": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "bitset": "cpp",
+    "algorithm": "cpp",
+    "format": "cpp"
   }
 }
