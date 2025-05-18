@@ -47,30 +47,42 @@ int phi(int n)
         result -= result / n;
     return result;
 }
-int check(int x, int y)
-{
-    int ans = 0;
-    while (x > 1)
-    {
-        x = (x + 1) / 2;
-        ans++;
-    }
-    while (y > 1)
-    {
-        y = (y + 1) / 2;
-        ans++;
-    }
-    return ans;
-}
+
 void solve()
 {
-    int n, m, a, b;
-    cin >> n >> m >> a >> b;
-    int x, y;
-    x = min(a, n - a + 1);
-    y = min(b, m - b + 1);
-    int ans = min(check(x, m), check(n, y));
-    cout << ans + 1 << endl;
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    map<pair<int, int>, int> mp;
+    map<int, bool> f;
+
+    for (int i = 0; i < n; i++)
+    {
+        cin >> v[i];
+        mp[{v[i] + 1, v[i] + 2}]++;
+    }
+    for (auto &u : mp)
+    {
+        auto [x, y] = u.first;
+        int val = u.second;
+        if (val > 3)
+        {
+            yes;
+            return;
+        }
+        if (val > 1)
+        {
+            f[y] = true;
+        }
+        if (f[x] && f[y])
+        {
+            yes;
+            return;
+        }
+        if (f[x])
+            f[y] = true;
+    }
+    no;
 }
 
 signed main()

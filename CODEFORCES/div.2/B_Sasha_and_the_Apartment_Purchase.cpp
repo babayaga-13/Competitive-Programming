@@ -2,6 +2,8 @@
 #define int long long
 #define ll long long
 #define endl "\n"
+#define vi vector<int>
+#define vii vector<vector<int>>
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
 #define ln cout << endl
@@ -47,32 +49,22 @@ int phi(int n)
         result -= result / n;
     return result;
 }
-int check(int x, int y)
-{
-    int ans = 0;
-    while (x > 1)
-    {
-        x = (x + 1) / 2;
-        ans++;
-    }
-    while (y > 1)
-    {
-        y = (y + 1) / 2;
-        ans++;
-    }
-    return ans;
-}
+
 void solve()
 {
-    int n, m, a, b;
-    cin >> n >> m >> a >> b;
-    int x, y;
-    x = min(a, n - a + 1);
-    y = min(b, m - b + 1);
-    int ans = min(check(x, m), check(n, y));
-    cout << ans + 1 << endl;
+    int n, k;
+    cin >> n >> k;
+    vi a(n);
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    sort(all(a));
+    int len = n - k;
+    int x = a[(len - 1) / 2];
+    int y = a[k + len / 2];
+    cout << y - x + 1 << endl;
 }
-
+// 1 2 3 4
+//
 signed main()
 {
     ios_base::sync_with_stdio(false);
