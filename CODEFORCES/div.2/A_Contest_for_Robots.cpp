@@ -66,7 +66,6 @@ void init_fact()
         inv_fact[i] = inv_fact[i + 1] * (i + 1) % MOD;
     }
 }
-
 int nCr(int n, int r)
 {
     return fact[n] % MOD * inv_fact[r] % MOD * inv_fact[n - r] % MOD;
@@ -80,25 +79,27 @@ void solve()
 {
     int n;
     cin >> n;
-    vi a(n);
+    vi a(n), b(n);
     for (int i = 0; i < n; i++)
         cin >> a[i];
-    ll m = a[n - 1];
-    ll ans = 0;
-    for (int i = 0; i < n - 2; i++)
+    int x = 0, y = 0;
+    for (int i = 0; i < n; i++)
     {
-        for (int j = i + 1; j < n - 1; j++)
+        cin >> b[i];
+        if (a[i] != b[i])
         {
-            ll s = a[i] + a[j];
-            int x = (lower_bound(a.begin() + j + 1, a.end(), s) - a.begin());
-            int y = (upper_bound(a.begin() + j + 1, a.end(), m - s) - a.begin());
-            if (y <= x)
-            {
-                ans += (x - y);
-            }
+            x += a[i];
+            y += b[i];
         }
     }
-    cout << ans << "\n";
+    if (x == 0 )
+    {
+        cout << "-1\n";
+    }
+    else
+    {
+        cout << y / x + 1;
+    }
 }
 
 signed main()
@@ -107,7 +108,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
