@@ -7,7 +7,7 @@
 #define endl "\n"
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-#define ln cout << endl
+#define ln cout << "\n"
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define count_one(x) __builtin_popcount(x)
@@ -77,50 +77,22 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n;
+    int n, ans = 0;
     cin >> n;
-    int x = 0;
-    vi a(n, 0), b(n, 0), c(n, 0);
+    vi a(n + 1, 0);
     for (int i = 0; i < n; i++)
-    {
         cin >> a[i];
-        x ^= a[i];
-    }
-
-    if (x == 0)
+    for (int i = 1; i < n; i += 2)
     {
-        yes;
+        if (a[i] < a[i - 1] + a[i + 1])
+        {
+            int x = a[i + 1] + a[i - 1] - a[i];
+            ans += x;
+            a[i + 1] = max(a[i + 1] - x, 0ll);
+        }
     }
-    else
-    {
-        for (int i = 0; i < n; i++)
-        {
-            b[i] = a[i];
-            if (i)
-                b[i] ^= b[i - 1];
-        }
-        for (int i = n - 1; i >= 0; i--)
-        {
-            c[i] = a[i];
-            if (i < n - 1)
-                c[i] ^= c[i + 1];
-        }
-        for (int i = 1; i < n - 1; i++)
-        {
-            if (b[i] == 0)
-            {
-                for (int j = 0; j < i; j++)
-                {
-                    if (b[j] == c[i + 1])
-                    {
-                        yes;
-                        return;
-                    }
-                }
-            }
-        }
-        no;
-    }
+    cout << ans;
+    ln;
 }
 
 signed main()

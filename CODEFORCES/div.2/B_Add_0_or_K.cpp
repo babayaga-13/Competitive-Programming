@@ -77,49 +77,31 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int x = 0;
-    vi a(n, 0), b(n, 0), c(n, 0);
+    int n, k;
+    cin >> n >> k;
+    int a[n];
     for (int i = 0; i < n; i++)
-    {
         cin >> a[i];
-        x ^= a[i];
-    }
-
-    if (x == 0)
+    if (k % 2)
     {
-        yes;
+        for (int i = 0; i < n; i++)
+        {
+            if (a[i] % 2)
+                a[i] += k;
+        }
+        for (auto u : a)
+            cout << u << " ";
+        ln;
     }
     else
     {
         for (int i = 0; i < n; i++)
         {
-            b[i] = a[i];
-            if (i)
-                b[i] ^= b[i - 1];
+            a[i] += (a[i] % (k + 1)) * k;
         }
-        for (int i = n - 1; i >= 0; i--)
-        {
-            c[i] = a[i];
-            if (i < n - 1)
-                c[i] ^= c[i + 1];
-        }
-        for (int i = 1; i < n - 1; i++)
-        {
-            if (b[i] == 0)
-            {
-                for (int j = 0; j < i; j++)
-                {
-                    if (b[j] == c[i + 1])
-                    {
-                        yes;
-                        return;
-                    }
-                }
-            }
-        }
-        no;
+        for (auto u : a)
+            cout << u << " ";
+        ln;
     }
 }
 
