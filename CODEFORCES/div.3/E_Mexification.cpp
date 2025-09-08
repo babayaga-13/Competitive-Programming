@@ -96,9 +96,8 @@ void op(vector<int> &v, int n)
             v[i] = mex;
         else
             v[i] = min(v[i], mex);
-        //cout << v[i] << " ";
+        // cout << v[i] << " ";
     }
-    
 }
 void solve()
 {
@@ -107,7 +106,13 @@ void solve()
     vi a(n);
     for (int i = 0; i < n; i++)
         cin >> a[i];
-    if (k % 2)
+    if (k % 2 && k > 2)
+    {
+        op(a, n);
+        op(a, n);
+        op(a, n);
+    }
+    else if (k == 1)
     {
         op(a, n);
     }
@@ -117,7 +122,7 @@ void solve()
         op(a, n);
     }
     int ans = accumulate(all(a), 0LL);
-    cout<<ans<<endl;
+    cout << ans << endl;
 }
 
 signed main()
