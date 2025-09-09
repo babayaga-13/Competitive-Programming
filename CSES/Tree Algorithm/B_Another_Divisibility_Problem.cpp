@@ -22,8 +22,20 @@ using namespace std;
 // using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int MOD = 1e9 + 7;
-const int N = 2e5 + 5;
+const int N = 1e6 + 5;
 
+ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
+ll power(ll a, ll n)
+{
+    ll ans = 1;
+    while (n)
+    {
+        if (n % 2)
+            ans = ((__int128_t)ans * a) % MOD, n--;
+        a = ((__int128_t)a * a) % MOD, n /= 2;
+    }
+    return ans;
+}
 int phi(int n)
 {
     int result = n;
@@ -40,35 +52,34 @@ int phi(int n)
         result -= result / n;
     return result;
 }
-
-vi vis(N, 0), a(N, 0), b(N, 0);
-vector<int> adj[N + 1];
-int c = 0;
-int dfs(int p)
+long long fact[N], inv_fact[N];
+void init_fact()
 {
-    vis[p] = 1;
-    for (auto u : adj[p])
+    fact[0] = inv_fact[0] = 1;
+    for (int i = 1; i < N; i++)
     {
-        if (!vis[u])
-        {
-            dfs(u);
-            a[u] = a[p] + 1;
-        }
+        fact[i] = fact[i - 1] * i % MOD;
     }
+    inv_fact[N - 1] = power(fact[N - 1], MOD - 2);
+    for (int i = N - 2; i >= 1; i--)
+    {
+        inv_fact[i] = inv_fact[i + 1] * (i + 1) % MOD;
+    }
+}
+int nCr(int n, int r)
+{
+    return fact[n] % MOD * inv_fact[r] % MOD * inv_fact[n - r] % MOD;
+}
+long long nPr(int n, int r)
+{
+    return fact[n] * inv_fact[n - r] % MOD;
 }
 
 void solve()
 {
-    int n;
-    cin >> n;
-    for (int i = 1; i < n; i++)
-    {
-        int x, y;
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
-    }
-    dfs(1);
+    long long x;
+    cin >> x;
+    cout << 2LL * x << "\n";
 }
 
 signed main()
@@ -77,7 +88,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    // cin >> t;
+    cin >> t;
     while (t--)
     {
         solve();
