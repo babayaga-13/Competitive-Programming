@@ -40,26 +40,39 @@ int phi(int n)
         result -= result / n;
     return result;
 }
-
-vi vis(N, 0), a(N, 0), b(N, 0);
+int n;
+vi vis(N, 0), a(N, 0), b(N, 0), sz(N, 0), ans;
 vector<int> adj[N + 1];
 int c = 0;
 int dfs(int p)
+{
+    vis[p] = 1;
+    sz[p] = 1;
+    for (auto u : adj[p])
+    {
+        if (!vis[u])
+        {
+            a[u] = a[p] + 1;
+            sz[p] += dfs(u);
+        }
+    }
+    return sz[p];
+}
+void rdfs(int p)
 {
     vis[p] = 1;
     for (auto u : adj[p])
     {
         if (!vis[u])
         {
-            dfs(u);
-            a[u] = a[p] + 1;
+            ans[u] = ans[p] - sz[u] + (n - sz[u]);
+            rdfs(u);
         }
     }
 }
 
 void solve()
 {
-    int n;
     cin >> n;
     for (int i = 1; i < n; i++)
     {
@@ -69,6 +82,14 @@ void solve()
         adj[y].push_back(x);
     }
     dfs(1);
+    for (int i = 1; i <= n; i++)
+        c += a[i];
+    ans.assign(n + 1, 0);
+    vis.assign(n + 1, 0);
+    ans[1] = c;
+    rdfs(1);
+    for (int i = 1; i <= n; i++)
+        cout << ans[i] << " ";
 }
 
 signed main()
