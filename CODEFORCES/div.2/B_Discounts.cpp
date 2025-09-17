@@ -4,7 +4,7 @@
 #define vi vector<int>
 #define vpi vector<pi>
 #define vii vector<vector<int>>
-#define pi pair<int,int>
+#define pi pair<int, int>
 #define endl "\n"
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
@@ -76,59 +76,31 @@ long long nPr(int n, int r)
     return fact[n] * inv_fact[n - r] % MOD;
 }
 
-vi a, ans;
-vii adj;
-int n, sum;
-
-void dfs(int c, int p, int d)
-{
-    ans[1] += a[c] * d; 
-    for (auto u : adj[c])
-    {
-        if (u == p)
-            continue;
-        dfs(u, c, d + 1);
-        a[c] += a[u]; 
-    }
-}
-
-void rdfs(int c, int p)
-{
-    for (auto u : adj[c])
-    {
-        if (u == p)
-            continue;
-        ans[u] = ans[c] + (sum - 2 * a[u]); 
-        rdfs(u, c);
-    }
-}
-
 void solve()
 {
-    cin >> n;
-    a.assign(n + 1, 0);
-    ans.assign(n + 1, 0);
-    adj.assign(n + 1, {});
-    sum = 0;
-
-    for (int i = 1; i <= n; i++)
-    {
+    int n, k;
+    cin >> n >> k;
+    vi a(n), b(k);
+    for (int i = 0; i < n; i++)
         cin >> a[i];
-        sum += a[i];
-    }
-
-    for (int i = 1; i < n; i++)
+    for (int i = 0; i < k; i++)
+        cin >> b[i];
+    sort(all(a));
+    sort(all(b));
+    int c = 0;
+    for (int i = n - 1; i >= 0; i--)
     {
-        int x, y;
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
+        if (c < k)
+        {
+            if (i >= b[c] - 1)
+            {
+                i = i - (b[c] - 1);
+                a[i] = 0;
+                c++;
+            }
+        }
     }
-
-    dfs(1, 0, 0); 
-    rdfs(1, 0);  
-
-    cout << *max_element(all(ans)) << "\n";
+    cout << accumulate(all(a), 0LL) << endl;
 }
 
 signed main()
@@ -137,7 +109,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-   // cin >> t;
+    cin >> t;
     while (t--)
     {
         solve();
