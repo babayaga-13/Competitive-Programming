@@ -80,30 +80,24 @@ void solve()
 {
     int n;
     cin >> n;
-    vi a(n);
-    for (int i = 0; i < n; i++)
+    vi a(n + 1);
+    for (int i = 1; i <= n; i++)
         cin >> a[i];
-    int i = 0, x = 0, ans = 0;
-    while (i < n)
-    {
-        int j = i, c = 0;
-        while (j < n && j < i + a[i])
-        {
-            if (a[i] == a[j])
-                c++;
-            else
-                break;
-            j++;
-        }
-        if (c != a[i])
-        {
-            c = 0;
-        }
 
-        ans += c;
-        i = j;
+    queue<int> q[n + 1];
+
+    vi dp(n + 1, 0);
+    for (int i = 1; i <= n; i++)
+    {
+        q[a[i]].push(i);
+        dp[i] = dp[i - 1];
+        if (q[a[i]].size() == a[i])
+        {
+            dp[i] = max(dp[i - 1], dp[q[a[i]].front() - 1] + a[i]);
+            q[a[i]].pop();
+        }
     }
-    cout << ans << endl;
+    cout << dp[n] << endl;
 }
 
 signed main()
