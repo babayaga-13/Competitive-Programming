@@ -97,6 +97,14 @@ void solve()
 
         mp[x] = i;
     }
+    for (int i = 3; i < n; i++)
+    {
+        if (s[i] == s[i - 1] && s[i - 1] == s[i - 2] && s[i - 2] == s[i - 3])
+        {
+            yes;
+            return;
+        }
+    }
     no;
 }
 
