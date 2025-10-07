@@ -59,11 +59,14 @@
   "files.associations": {
     "*.embeddedhtml": "html",
     "*.json": "cpp",
+    "*.cpp": "cpp",
     "iostream": "cpp",
     "random": "cpp",
     "vector": "cpp",
     "bitset": "cpp",
     "algorithm": "cpp",
-    "format": "cpp"
+    "format": "cpp",
+    "chrono": "cpp",
+    "functional": "cpp"
   }
 }
