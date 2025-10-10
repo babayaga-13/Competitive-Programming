@@ -75,41 +75,68 @@ long long nPr(int n, int r)
 {
     return fact[n] * inv_fact[n - r] % MOD;
 }
+struct DSU
+{
+    vector<int> parent, size;
+
+    DSU(int n)
+    {
+        parent.resize(n + 1);
+        size.assign(n + 1, 1);
+        iota(parent.begin(), parent.end(), 0);
+    }
+
+    int find(int v)
+    {
+        if (v == parent[v])
+            return v;
+        return parent[v] = find(parent[v]);
+    }
+
+    bool unite(int a, int b)
+    {
+        a = find(a);
+        b = find(b);
+        if (a == b)
+            return false;
+        if (size[a] < size[b])
+            swap(a, b);
+        parent[b] = a;
+        size[a] += size[b];
+        return true;
+    }
+};
 
 void solve()
 {
     int n, m1, m2;
     cin >> n >> m1 >> m2;
-    map<pi, int> mp;
+    vector<pi> a(m1), b(m2);
+    DSU f(n), g(n);
     for (int i = 0; i < m1; i++)
     {
-        int x, y;
-        cin >> x >> y;
-        if (y > x)
-            swap(x, y);
-        mp[{x, y}]++;
+        cin >> a[i].first >> a[i].second;
     }
-    int ans = 0;
     for (int i = 0; i < m2; i++)
     {
-        int x, y;
-        cin >> x >> y;
-        if (y > x)
-            swap(x, y);
-        if (mp[{x, y}])
-        {
-            mp[{x, y}] = 0;
-        }
-        else
-        {
-            ans++;
-        }
+        cin >> b[i].first >> b[i].second;
+        g.unite(b[i].first, b[i].second);
     }
-
-    for (auto [u, v] : mp)
+    int ans = 0;
+    for (int i = 0; i < m1; i++)
     {
-        if (v)
+        if (g.find(a[i].first) != g.find(a[i].second))
             ans++;
+        else
+            f.unite(a[i].first, a[i].second);
+    }
+    for (int i = 0; i < m2; i++)
+    {
+        if (f.find(b[i].first) != f.find(b[i].second))
+        {
+            ans++;
+            f.unite(b[i].first, b[i].second);
+        }
     }
     cout << ans << endl;
 }
