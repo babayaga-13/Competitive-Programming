@@ -78,32 +78,32 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, k, ans = 0;
-    cin >> n >> k;
-    string s;
-    cin >> s;
-    if (k % 2)
+    int n;
+    cin >> n;
+    int f = 1;
+    vi v;
+    for (int i = 2; i * i <= n; i++)
     {
-        vi c(26, 0);
-        for (int j = k / 2; j < n; j += k)
+        while (n % i == 0 && i < n)
         {
-            c[s[j] - 'a']++;
-            // cout << s[j] << " ";
+            v.push_back(i);
+            n /= i;
+            f = 0;
         }
-        ans += ((n / k)) - *max_element(all(c));
     }
-    for (int i = 0; i < k / 2; i++)
+    if (f)
     {
-        vi c(26, 0);
-        for (int j = 0; j + k - 1 < n; j += k)
-        {
-            c[s[j + i] - 'a']++;
-            c[s[j + k - i - 1] - 'a']++;
-        }
-        ans += (2 * (n / k)) - *max_element(all(c));
+        cout << "1\n0\n";
     }
-
-    cout << ans << endl;
+    else if (v.size() == 1)
+    {
+        cout << 2;
+    }
+    else
+    {
+        cout << "1\n";
+        cout << v[0] * v[1];
+    }
 }
 
 signed main()
@@ -112,7 +112,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();

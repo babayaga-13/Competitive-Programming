@@ -75,35 +75,81 @@ long long nPr(int n, int r)
 {
     return fact[n] * inv_fact[n - r] % MOD;
 }
-
+int n, m, k;
+int dx[4] = {1, 0, 0, -1};
+int dy[4] = {0, -1, 1, 0};
+char a[4] = {'D', 'L', 'R', 'U'};
+bool check(int x, int y)
+{
+    return x >= 0 && x < n && y >= 0 && y < m;
+}
 void solve()
 {
-    int n, k, ans = 0;
-    cin >> n >> k;
-    string s;
-    cin >> s;
-    if (k % 2)
+    cin >> n >> m >> k;
+    char v[n][m];
+    int dis[n][m];
+    pi st;
+    for (int i = 0; i < n; i++)
     {
-        vi c(26, 0);
-        for (int j = k / 2; j < n; j += k)
+        for (int j = 0; j < m; j++)
         {
-            c[s[j] - 'a']++;
-            // cout << s[j] << " ";
+            cin >> v[i][j];
+            dis[i][j] = -1;
+            if (v[i][j] == 'X')
+            {
+                dis[i][j] = 0;
+                st.first = i;
+                st.second = j;
+            }
         }
-        ans += ((n / k)) - *max_element(all(c));
-    }
-    for (int i = 0; i < k / 2; i++)
-    {
-        vi c(26, 0);
-        for (int j = 0; j + k - 1 < n; j += k)
-        {
-            c[s[j + i] - 'a']++;
-            c[s[j + k - i - 1] - 'a']++;
-        }
-        ans += (2 * (n / k)) - *max_element(all(c));
     }
 
-    cout << ans << endl;
+    queue<pi> q;
+    q.push(st);
+    while (!q.empty())
+    {
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (check(nx, ny) && dis[nx][ny] == -1 && v[nx][ny] != '*')
+            {
+                dis[nx][ny] = dis[x][y] + 1;
+                q.push({nx, ny});
+            }
+        }
+    }
+    vector<char> ans;
+    while ((int)ans.size() < k)
+    {
+        bool f = 1;
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = st.first + dx[i];
+            int ny = st.second + dy[i];
+            if (check(nx, ny) && dis[nx][ny] != -1 && (int)ans.size() + 1 + dis[nx][ny] <= k)
+            {
+                ans.push_back(a[i]);
+                st = {nx, ny};
+                f = 0;
+                break;
+            }
+        }
+        if (f)
+            break;
+    }
+    if (k % 2 || ans.size() != k)
+    {
+        cout << "IMPOSSIBLE";
+    }
+    else
+    {
+        for (auto u : ans)
+            cout << u;
+    }
 }
 
 signed main()
@@ -112,7 +158,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    //     cin >> t;
     while (t--)
     {
         solve();
