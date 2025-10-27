@@ -78,25 +78,37 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vi a(n);
-    map<int, int> mp;
-    for (int i = 0; i < n; i++)
-    {
+    int n;
+    cin >> n;
+    vi a(n + 1, 0), x(n + 1, 0), b(n + 1, 0);
+    for (int i = 1; i <= n; i++)
         cin >> a[i];
-        mp[a[i]]++;
-    }
-    sort(all(a));
-    int mx = *max_element(all(a)), ans = 0;
-
-    for (int i = 1; i <= mx; i++)
+    for (int i = 1; i <= n; i++)
     {
-        int cnt = mp[i] + mp[i * 2] + mp[i * 3] + (n - (lower_bound(all(a), 4 * i) - a.begin()));
-        if (n - cnt <= k)
-            ans = i;
+        cin >> x[i];
+        b[i] += b[i - 1] + x[i];
     }
-    cout << ans << endl;
+    vi ans(n + 1, 0), c(n + 1, 0);
+    for (int i = 1; i <= n; i++)
+    {
+        int j = upper_bound(all(b), a[i] + b[i - 1]) - b.begin();
+        if (j <= n)
+        {
+            ans[j] += a[i] + b[i - 1] - b[j - 1];
+        }
+        c[i]++;
+        if (j <= n)
+            c[j]--;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        c[i] += c[i - 1];
+        ans[i] += c[i] * x[i];
+    }
+    for (int i = 1; i <= n; i++)
+        cout << ans[i] << ' ';
+    cout << '\n';
 }
 
 signed main()

@@ -75,26 +75,102 @@ long long nPr(int n, int r)
 {
     return fact[n] * inv_fact[n - r] % MOD;
 }
+struct DSU
+{
+    vector<int> parent, sz;
+    int comp;
 
+    DSU(int n = 0)
+    {
+        init(n);
+    }
+    void init(int n)
+    {
+        parent.resize(n + 1);
+        sz.assign(n + 1, 1);
+        iota(parent.begin(), parent.end(), 0);
+        comp = n;
+    }
+    int find(int v)
+    {
+        if (v == parent[v])
+            return v;
+        return parent[v] = find(parent[v]);
+    }
+    bool unite(int a, int b)
+    {
+        a = find(a);
+        b = find(b);
+        if (a == b)
+            return false;
+        if (sz[a] < sz[b])
+            swap(a, b);
+        parent[b] = a;
+        sz[a] += sz[b];
+        comp--;
+        return true;
+    }
+    bool same(int a, int b)
+    {
+        return find(a) == find(b);
+    }
+
+    int get_size(int v)
+    {
+        return sz[find(v)];
+    }
+
+    int components_count() const
+    {
+        return comp;
+    }
+    void reset(int n)
+    {
+        init(n);
+    }
+    vector<vector<int>> get_all_components()
+    {
+        unordered_map<int, vector<int>> groups;
+        for (int i = 1; i < (int)parent.size(); i++)
+            groups[find(i)].push_back(i);
+        vector<vector<int>> res;
+        for (auto &x : groups)
+            res.push_back(x.second);
+        return res;
+    }
+};
 void solve()
 {
     int n, k;
     cin >> n >> k;
-    vi a(n);
-    map<int, int> mp;
-    for (int i = 0; i < n; i++)
+    int ans = power(n, k);
+    vi cnt(n + 1, 1);
+    cnt[0] = 0;
+    DSU d(n);
+    for (int i = 0; i < n - 1; i++)
     {
-        cin >> a[i];
-        mp[a[i]]++;
+        int x, y, z;
+        cin >> x >> y >> z;
+        if (z == 0)
+        {
+            d.unite(x, y);
+            cnt[x] = 0;
+            cnt[y] = 0;
+        }
     }
-    sort(all(a));
-    int mx = *max_element(all(a)), ans = 0;
-
-    for (int i = 1; i <= mx; i++)
+    ans -= accumulate(all(cnt), 0LL);
+    vi c(n + 1, 0);
+    for (int i = 1; i <= n; i++)
     {
-        int cnt = mp[i] + mp[i * 2] + mp[i * 3] + (n - (lower_bound(all(a), 4 * i) - a.begin()));
-        if (n - cnt <= k)
-            ans = i;
+        if (cnt[i] == 0)
+        {
+            int x = d.find(i);
+            if (!c[x])
+            {
+                c[x] = 1;
+                ans = (ans - power(d.get_size(x), k) + MOD) % MOD;
+            }
+        }
     }
     cout << ans << endl;
 }
@@ -105,7 +181,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    //  cin >> t;
     while (t--)
     {
         solve();

@@ -80,23 +80,42 @@ void solve()
 {
     int n, k;
     cin >> n >> k;
-    vi a(n);
-    map<int, int> mp;
-    for (int i = 0; i < n; i++)
+    string s;
+    cin >> s;
+    for (int i = k; i < n; i++)
     {
-        cin >> a[i];
-        mp[a[i]]++;
-    }
-    sort(all(a));
-    int mx = *max_element(all(a)), ans = 0;
+        if (s[i] == '1')
+        {
+            if (s[i % k] == '0')
+            {
+                no;
+                return;
+            }
+            s[i % k] = '1';
+        }
 
-    for (int i = 1; i <= mx; i++)
-    {
-        int cnt = mp[i] + mp[i * 2] + mp[i * 3] + (n - (lower_bound(all(a), 4 * i) - a.begin()));
-        if (n - cnt <= k)
-            ans = i;
+        else if (s[i] == '0')
+        {
+            if (s[i % k] == '1')
+            {
+                no;
+                return;
+            }
+            s[i % k] = '0';
+        }
     }
-    cout << ans << endl;
+    int c1 = 0, c2 = 0;
+    for (int i = 0; i < k; i++)
+    {
+        if (s[i] == '1')
+            c1++;
+        else if (s[i] == '0')
+            c2++;
+    }
+    if (c1 == c2 || (c1 <= (k / 2) && c2 <= (k / 2)))
+        yes;
+    else
+        no;
 }
 
 signed main()

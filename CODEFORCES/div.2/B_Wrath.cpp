@@ -78,23 +78,19 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vi a(n);
-    map<int, int> mp;
-    for (int i = 0; i < n; i++)
+    int n;
+    cin >> n;
+    vi v(n + 1);
+    for (int i = 1; i <= n; i++)
+        cin >> v[i];
+    int x = INT_MAX, ans = 0;
+    for (int i = n; i > 0; i--)
     {
-        cin >> a[i];
-        mp[a[i]]++;
-    }
-    sort(all(a));
-    int mx = *max_element(all(a)), ans = 0;
-
-    for (int i = 1; i <= mx; i++)
-    {
-        int cnt = mp[i] + mp[i * 2] + mp[i * 3] + (n - (lower_bound(all(a), 4 * i) - a.begin()));
-        if (n - cnt <= k)
-            ans = i;
+        if (i < x)
+        {
+            ans++;
+        }
+        x = min(x, i - v[i]);
     }
     cout << ans << endl;
 }
@@ -105,7 +101,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
