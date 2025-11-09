@@ -23,7 +23,7 @@ using namespace std;
 // using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int MOD = 1e9 + 7;
-const int N = 2e5 + 5;
+const int N = 1e6 + 5;
 
 ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
 ll power(ll a, ll n)
@@ -75,53 +75,29 @@ long long nPr(int n, int r)
 {
     return fact[n] * inv_fact[n - r] % MOD;
 }
-vector<int> pf[N];
-
-void sieve_prime_factors()
-{
-    for (int i = 2; i < N; i++)
-    {
-        if (pf[i].empty())
-        {
-            for (int j = i; j < N; j += i)
-            {
-                pf[j].push_back(i);
-            }
-        }
-    }
-}
 
 void solve()
 {
     int n;
     cin >> n;
-    vi a(n), b(n);
-    int ans = 2;
-    map<int, int> mp1, mp2;
+    vi a(n);
     for (int i = 0; i < n; i++)
         cin >> a[i];
-    for (int i = 0; i < n; i++)
-        cin >> b[i];
-    for (int i = 0; i < n; i++)
+    int mx = a[0], r = 0;
+    for (int i = 1; i < n; i++)
     {
-        for (auto u : pf[a[i]])
+        if (a[i] > mx)
+            mx = a[i];
+        else
         {
-            if (mp1[u])
-            {
-                ans = min(ans, 0LL);
-            }
-            else if (mp2[u])
-            {
-                ans = min(ans, 1LL);
-            }
-            mp1[u]++;
+            r = max(r, mx - a[i]);
         }
-        for (auto u : pf[a[i] + 1])
-        {
-            if (mp1[u])
-                ans = min(ans, 1LL);
-            mp2[u]++;
-        }
+    }
+    int ans = 0;
+    while (r)
+    {
+        ans++;
+        r /= 2;
     }
     cout << ans << endl;
 }
@@ -131,7 +107,6 @@ signed main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    sieve_prime_factors();
     ll t = 1;
     cin >> t;
     while (t--)

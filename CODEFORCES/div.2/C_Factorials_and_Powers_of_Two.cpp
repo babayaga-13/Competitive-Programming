@@ -11,9 +11,9 @@
 #define ln cout << endl
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
-#define count_one(x) __builtin_popcount(x)
-#define trailing_zero(x) __builtin_ctz(x)
-#define leading_zero(x) __builtin_clz(x)
+#define count_one(x) __builtin_popcountll(x)
+#define trailing_zero(x) __builtin_ctzll(x)
+#define leading_zero(x) __builtin_clzll(x)
 #define gcd __gcd
 using namespace std;
 // #include <ext/pb_ds/assoc_container.hpp>
@@ -23,7 +23,7 @@ using namespace std;
 // using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int MOD = 1e9 + 7;
-const int N = 2e5 + 5;
+const int N = 1e6 + 5;
 
 ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
 ll power(ll a, ll n)
@@ -53,6 +53,7 @@ int phi(int n)
         result -= result / n;
     return result;
 }
+
 long long fact[N], inv_fact[N];
 void init_fact()
 {
@@ -75,54 +76,26 @@ long long nPr(int n, int r)
 {
     return fact[n] * inv_fact[n - r] % MOD;
 }
-vector<int> pf[N];
-
-void sieve_prime_factors()
-{
-    for (int i = 2; i < N; i++)
-    {
-        if (pf[i].empty())
-        {
-            for (int j = i; j < N; j += i)
-            {
-                pf[j].push_back(i);
-            }
-        }
-    }
-}
-
+vi f;
 void solve()
 {
     int n;
     cin >> n;
-    vi a(n), b(n);
-    int ans = 2;
-    map<int, int> mp1, mp2;
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-    for (int i = 0; i < n; i++)
-        cin >> b[i];
-    for (int i = 0; i < n; i++)
+    int ans = count_one(n);
+    for (int i = 0; i < (1 << 14); i++)
     {
-        for (auto u : pf[a[i]])
+        int cur = 0;
+        for (int j = 0; j < 15; j++)
         {
-            if (mp1[u])
-            {
-                ans = min(ans, 0LL);
-            }
-            else if (mp2[u])
-            {
-                ans = min(ans, 1LL);
-            }
-            mp1[u]++;
+            if (i & (1 << j))
+                cur += f[j];
         }
-        for (auto u : pf[a[i] + 1])
+        if (cur <= n)
         {
-            if (mp1[u])
-                ans = min(ans, 1LL);
-            mp2[u]++;
+            ans = min(ans, 1LL * count_one(i) + count_one(n - cur));
         }
     }
+
     cout << ans << endl;
 }
 
@@ -131,7 +104,12 @@ signed main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    sieve_prime_factors();
+    int c = 2;
+    for (int i = 3; i < 15; i++)
+    {
+        c *= i;
+        f.push_back(c);
+    }
     ll t = 1;
     cin >> t;
     while (t--)
