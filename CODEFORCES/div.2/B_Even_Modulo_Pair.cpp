@@ -80,33 +80,19 @@ void solve()
 {
     int n;
     cin >> n;
-    vi b(n), c(n);
-    set<int> a;
+    int a[n];
     for (int i = 0; i < n; i++)
-    {
-        int x;
-        cin >> x;
-        a.insert(x);
-    }
+        cin >> a[i];
     for (int i = 0; i < n; i++)
-        cin >> b[i];
-
-    for (int i = 0; i < n; i++)
-        cin >> c[i];
-    sort(all(b));
-    for (int i = 0; i < n; i++)
-    {
-        auto it = a.lower_bound(b[i]);
-        it--;
-        b[i] -= (*it);
-        a.erase(*it);
-    }
-    sort(all(b));
-    sort(rall(c));
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-        ans += (c[i] * b[i]);
-    cout << ans << endl;
+        for (int j = i + 1; j < n; j++)
+        {
+            if ((a[j] % a[i]) % 2 == 0)
+            {
+                cout << a[i] << " " << a[j] << endl;
+                return;
+            }
+        }
+    cout << "-1\n";
 }
 
 signed main()

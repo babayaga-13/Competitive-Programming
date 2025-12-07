@@ -80,32 +80,25 @@ void solve()
 {
     int n;
     cin >> n;
-    vi b(n), c(n);
-    set<int> a;
+    int a[n];
     for (int i = 0; i < n; i++)
+        cin >> a[i];
+    vi p(n), s(n);
+    p[0] = a[0];
+    s[n - 1] = a[n - 1];
+    for (int i = 1; i < n; i++)
     {
-        int x;
-        cin >> x;
-        a.insert(x);
+        p[i] = gcd(p[i - 1], a[i]);
     }
-    for (int i = 0; i < n; i++)
-        cin >> b[i];
-
-    for (int i = 0; i < n; i++)
-        cin >> c[i];
-    sort(all(b));
-    for (int i = 0; i < n; i++)
+    for (int i = n - 2; i >= 0; i--)
     {
-        auto it = a.lower_bound(b[i]);
-        it--;
-        b[i] -= (*it);
-        a.erase(*it);
+        s[i] = gcd(s[i + 1], a[i]);
     }
-    sort(all(b));
-    sort(rall(c));
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-        ans += (c[i] * b[i]);
+    int ans = s[0];
+    for (int i = 1; i < n - 1; i++)
+    {
+        ans += min(p[i], s[i]);
+    }
     cout << ans << endl;
 }
 
@@ -115,7 +108,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();

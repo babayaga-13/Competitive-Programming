@@ -3,7 +3,7 @@
 #define ll long long
 #define vi vector<int>
 #define vpi vector<pi>
-#define vii vector<vector<int>>
+#define vvi vector<vector<int>>
 #define pi pair<int, int>
 #define endl "\n"
 #define yes cout << "YES" << endl
@@ -78,35 +78,40 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vi b(n), c(n);
-    set<int> a;
-    for (int i = 0; i < n; i++)
+    int n, m, k;
+    cin >> n >> m >> k;
+    int a[n + 1];
+    for (int i = 1; i <= n; i++)
+        cin >> a[i];
+    vvi adj(n + 1);
+    for (int i = 0; i < m; i++)
     {
-        int x;
-        cin >> x;
-        a.insert(x);
+        int x, y;
+        cin >> x >> y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
     }
-    for (int i = 0; i < n; i++)
-        cin >> b[i];
-
-    for (int i = 0; i < n; i++)
-        cin >> c[i];
-    sort(all(b));
-    for (int i = 0; i < n; i++)
+    queue<pi> q;
+    q.push({1, 0});
+    vi ans(k + 1, 0), vis(n + 1, 0);
+    vis[1] = 1;
+    while (!q.empty())
     {
-        auto it = a.lower_bound(b[i]);
-        it--;
-        b[i] -= (*it);
-        a.erase(*it);
+        auto [x, y] = q.front();
+       // cout << x << " " << y << endl;
+        q.pop();
+        for (auto u : adj[x])
+        {
+            if (!vis[u])
+            {
+                ans[a[u]] = y + 1;
+                vis[u] = 1;
+                q.push({u, y + 1});
+            }
+        }
     }
-    sort(all(b));
-    sort(rall(c));
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-        ans += (c[i] * b[i]);
-    cout << ans << endl;
+    for (int i = 1; i <= k; i++)
+        cout << ans[i] << " ";
 }
 
 signed main()
@@ -115,7 +120,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();

@@ -78,34 +78,59 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vi b(n), c(n);
-    set<int> a;
+    int n, m;
+    cin >> n >> m;
+    multiset<int> s;
+    vpi a;
+    vi b(m), c(m);
     for (int i = 0; i < n; i++)
     {
         int x;
         cin >> x;
-        a.insert(x);
+        s.insert(x);
     }
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < m; i++)
         cin >> b[i];
-
-    for (int i = 0; i < n; i++)
-        cin >> c[i];
-    sort(all(b));
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < m; i++)
     {
-        auto it = a.lower_bound(b[i]);
-        it--;
-        b[i] -= (*it);
-        a.erase(*it);
+        cin >> c[i];
+        a.push_back({b[i], c[i]});
     }
-    sort(all(b));
-    sort(rall(c));
+    sort(all(a));
     int ans = 0;
-    for (int i = 0; i < n; i++)
-        ans += (c[i] * b[i]);
+    for (int i = 0; i < m; i++)
+    {
+        if (a[i].second)
+        {
+            auto it = s.lower_bound(a[i].first);
+            if (it == s.end())
+                continue;
+            int x = *it;
+
+            if (x >= a[i].first && a[i].second > x)
+            {
+                s.erase(it);
+                s.insert(a[i].second);
+            }
+            ans++;
+        }
+    }
+    for (int i = 0; i < m; i++)
+    {
+        if (!a[i].second)
+        {
+            auto it = s.lower_bound(a[i].first);
+            if (it == s.end())
+                continue;
+            int x = *it;
+
+            if (x >= a[i].first)
+            {
+                s.erase(it);
+            }
+            ans++;
+        }
+    }
     cout << ans << endl;
 }
 
