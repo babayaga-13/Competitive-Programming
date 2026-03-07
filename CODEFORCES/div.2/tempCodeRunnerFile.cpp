@@ -1,11 +1,10 @@
-int n, m;
-    cin >> n >> m;
-    vii adj;
-    adj.resize(n + 1);
-    for (int i = 0; i < m; i++)
-    {
-        int x, y;
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
-    }
+if (mp[v[j].second] == 1)
+        // {
+        //     j++;
+        // }
+        // if (v.empty() || j == v.size())
+        // {
+        //     continue;
+        // }
+        // s += v[j].first;
+        // mp[v[j].second]--;
