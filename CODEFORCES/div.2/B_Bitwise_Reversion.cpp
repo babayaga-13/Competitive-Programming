@@ -78,35 +78,22 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vi a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-    vi ans;
-    ans.push_back(a[0]);
-    int c = a[0], mx = a[0], f = 1;
-    for (int i = 1; i < n; i++)
+    int x, y, z;
+    cin >> x >> y >> z;
+    for (int i = 0; i < 30; i++)
     {
-        if (a[i] == a[i - 1] + 1)
+        if (((x >> i) & 1) == 1 && ((y >> i) & 1) != ((z >> i) & 1))
         {
-            mx = a[i];
+            no;
+            return;
         }
-        else if (a[i] > c && a[i] <= mx )
+        if (((x >> i) & 1) == 0 && ((y >> i) & 1) && ((z >> i) & 1))
         {
-            mx = a[i];
-        }
-        else
-        {
-            c = a[i];
-            mx = a[i];
-            ans.push_back(a[i]);
+            no;
+            return;
         }
     }
-    // for (auto u : ans)
-    // cout << u << " ";
-    cout << ans.size();
-    ln;
+    yes;
 }
 
 signed main()
