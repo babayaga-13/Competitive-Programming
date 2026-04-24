@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#define int long long
 #define ll long long
 #define vi vector<int>
 #define vpi vector<pi>
@@ -10,9 +11,9 @@
 #define ln cout << endl
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
-#define count_one(x) __builtin_popcount(x)
-#define trailing_zero(x) __builtin_ctz(x)
-#define leading_zero(x) __builtin_clz(x)
+#define count_one(x) __builtin_popcountll(x)
+#define trailing_zero(x) __builtin_ctzll(x)
+#define leading_zero(x) __builtin_clzll(x)
 #define gcd __gcd
 using namespace std;
 // #include <ext/pb_ds/assoc_container.hpp>
@@ -22,7 +23,7 @@ using namespace std;
 // using pbds = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int MOD = 1e9 + 7;
-const int N = 2e5 + 5;
+const int N = 1e6 + 5;
 
 ll lcm(ll a, ll b) { return a / __gcd(a, b) * b; }
 ll power(ll a, ll n)
@@ -74,67 +75,80 @@ long long nPr(int n, int r)
 {
     return fact[n] * inv_fact[n - r] % MOD;
 }
-
-int n, k;
-vii adj;
-vector<vector<int>> par;
-vector<int> curr;
-
+int n, q;
+vii adj, par;
+vi d;
 void dfs(int c, int p)
 {
+
     par[c][0] = p;
     for (auto u : adj[c])
     {
-        if (u == p)
-            continue;
-        dfs(u, c);
+        if (u != p)
+        {
+            d[u] = d[c] + 1;
+            dfs(u, c);
+        }
     }
 }
 void build()
 {
-    for (int j = 1; j < 20; j++)
+    for (int i = 1; i < 20; i++)
     {
-        for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
         {
-            if (par[i][j - 1] != -1)
-                par[i][j] = par[par[i][j - 1]][j - 1];
+            if (par[j][i - 1] != -1)
+                par[j][i] = par[par[j][i - 1]][i - 1];
         }
     }
 }
-int kth_ancestor(int x, int k)
+int lca(int x, int y)
 {
-    for (int j = 0; j < 20; j++)
+    if (d[x] > d[y])
+        swap(x, y);
+
+    int k = d[y] - d[x];
+    for (int i = 0; i < 20; i++)
     {
-        if (k & (1LL << j))
+        if (k & (1 << i))
         {
-            x = par[x][j];
-            if (x == -1)
-                return -1;
+            y = par[y][i];
+            if (y == -1)
+                break;
         }
     }
-    return x;
+    if (x == y)
+        return x;
+    for (int i = 19; i >= 0; i--)
+    {
+        if (par[y][i] != par[x][i])
+        {
+            x = par[x][i];
+            y = par[y][i];
+        }
+    }
+    return par[x][0];
 }
-
 void solve()
 {
-    cin >> n >> k;
+    cin >> n >> q;
     adj.resize(n + 1);
-    par.assign(n + 1, vi(20, -1));
-    for (int i = 2; i <= n; i++)
-    {
-        int p;
-        cin >> p;
-        adj[p].push_back(i);
-        adj[i].push_back(p);
-    }
-
-    dfs(1, -1);
-    build();
-    while (k--)
+    d.resize(n + 1, 0);
+    par.resize(n + 1, vi(20, -1));
+    for (int i = 1; i < n; i++)
     {
         int x, y;
         cin >> x >> y;
-        cout << kth_ancestor(x, y) << endl;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+    dfs(1, -1);
+    build();
+    while (q--)
+    {
+        int x, y;
+        cin >> x >> y;
+        cout << d[x] + d[y] - 2 * d[lca(x, y)] << endl;
     }
 }
 
