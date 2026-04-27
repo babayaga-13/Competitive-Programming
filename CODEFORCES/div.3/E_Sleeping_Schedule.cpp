@@ -86,7 +86,7 @@ void solve()
     {
         cin >> a[i];
     }
-    vii dp(h + 1, vi(h, -1));
+    vii dp(n + 1, vi(h, -1));
     dp[0][0] = 0;
 
     for (int i = 0; i < n; i++)
@@ -109,7 +109,7 @@ void solve()
             dp[i + 1][x] = max(dp[i + 1][x], dp[i][j] + f);
             // cout << dp[i][j] << " ";
         }
-        ln;
+
     }
     // for(int i=0;i<h;i++)
     //     cout << dp[n][i] << " ";
