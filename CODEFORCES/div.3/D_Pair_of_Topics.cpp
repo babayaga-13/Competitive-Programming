@@ -11,9 +11,9 @@
 #define ln cout << endl
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
-#define count_one(x) __builtin_popcount(x)
-#define trailing_zero(x) __builtin_ctz(x)
-#define leading_zero(x) __builtin_clz(x)
+#define count_one(x) __builtin_popcountll(x)
+#define trailing_zero(x) __builtin_ctzll(x)
+#define leading_zero(x) __builtin_clzll(x)
 #define gcd __gcd
 using namespace std;
 // #include <ext/pb_ds/assoc_container.hpp>
@@ -78,43 +78,39 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, h, l, r;
-    cin >> n >> h >> l >> r;
-    int c = 0, ans = 0;
+    int n;
+    cin >> n;
     vi a(n);
     for (int i = 0; i < n; i++)
-    {
         cin >> a[i];
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        a[i] -= x;
     }
-    vii dp(h + 1, vi(h, -1));
-    dp[0][0] = 0;
+    sort(all(a));
+
+    // for (int i = 0; i < n; i++)
+    //     cout << a[i] << " ";
+    // ln;
+    sort(a.begin(), a.end());
+
+    int ans = 0;
 
     for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < h; j++)
+        if (a[i] > 0)
         {
-            if (dp[i][j] == -1)
-
-            {
-                // cout << dp[i][j] << " ";
-
-                continue;
-            }
-
-            int x = (j + a[i]) % h;
-            int f = (x >= l && x <= r);
-            dp[i + 1][x] = max(dp[i + 1][x], dp[i][j] + f);
-            x = (j + a[i] - 1) % h;
-            f = (x >= l && x <= r);
-            dp[i + 1][x] = max(dp[i + 1][x], dp[i][j] + f);
-            // cout << dp[i][j] << " ";
+            ans += (n - i - 1); 
         }
-        ln;
+        else
+        {
+            int pos = lower_bound(a.begin() + i + 1, a.end(), -a[i] + 1) - a.begin();
+            ans += n - pos;
+        }
     }
-    // for(int i=0;i<h;i++)
-    //     cout << dp[n][i] << " ";
-
-    cout << *max_element(all(dp[n])) << endl;
+    cout << ans;
 }
 
 signed main()
@@ -123,7 +119,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    // cin >> t;
+    //   cin >> t;
     while (t--)
     {
         solve();
