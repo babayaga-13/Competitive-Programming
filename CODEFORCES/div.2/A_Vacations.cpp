@@ -78,21 +78,33 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, a, b;
-    cin >> n >> a >> b;
-    vi v(n), suf(n + 1, 0);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    for (int i = n - 1; i >= 0; i--)
-    {
-        suf[i] = (v[i] + suf[i + 1]);
-    }
-    int ans = suf[0] * b;
+    int n;
+    cin >> n;
+    vi a(n);
+    vii dp(3, vi(n, 0));
     for (int i = 0; i < n; i++)
     {
-        ans = min(ans, v[i] * (a + b) + (suf[i + 1] - (v[i]) * (n - i - 1)) * b);
+        int x;
+        cin >> x;
+        if (i == 0)
+        {
+            if (x == 1 || x == 3)
+                dp[1][i] = 1;
+            if (x == 2 || x == 3)
+                dp[2][i] = 1;
+        }
+        else
+        {
+
+            dp[0][i] = max({dp[0][i - 1], dp[1][i - 1], dp[2][i - 1]});
+            if (x == 1 || x == 3)
+                dp[1][i] = max(dp[0][i - 1], dp[2][i - 1]) + 1;
+            if (x == 2 || x == 3)
+                dp[2][i] = max(dp[0][i - 1], dp[1][i - 1]) + 1;
+        }
     }
-    cout << ans << endl;
+
+    cout << n - max({dp[0][n - 1], dp[1][n - 1], dp[2][n - 1]});
 }
 
 signed main()
@@ -101,7 +113,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    //  /   cin >> t;
     while (t--)
     {
         solve();

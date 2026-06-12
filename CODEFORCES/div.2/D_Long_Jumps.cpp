@@ -78,21 +78,51 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, a, b;
-    cin >> n >> a >> b;
-    vi v(n), suf(n + 1, 0);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    for (int i = n - 1; i >= 0; i--)
-    {
-        suf[i] = (v[i] + suf[i + 1]);
-    }
-    int ans = suf[0] * b;
+    int n, l, x, y;
+    cin >> n >> l >> x >> y;
+    vi a(n);
+    map<int, int> mp;
     for (int i = 0; i < n; i++)
     {
-        ans = min(ans, v[i] * (a + b) + (suf[i + 1] - (v[i]) * (n - i - 1)) * b);
+        cin >> a[i];
+        mp[a[i]]++;
     }
-    cout << ans << endl;
+    int f1 = 0, f2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (mp[x] || mp[a[i] + x])
+            f1 = 1;
+        if (mp[y] || mp[a[i] + y])
+            f2 = 1;
+    }
+    if (f1 && f2)
+        cout << "0";
+    else if (f1)
+        cout << "1\n"
+             << y;
+    else if (f2)
+        cout << "1\n"
+             << x;
+    else
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (a[i] + x <= l && mp[a[i] + x - y] || mp[a[i] + x + y])
+            {
+                cout << "1\n"
+                     << a[i] + x;
+                return;
+            }
+            else if (a[i] - x >= 0 && mp[a[i] - x + y] || mp[a[i] - x - y])
+            {
+                cout << "1\n"
+                     << a[i] - x;
+                return;
+            }
+        }
+        cout << "2\n"
+             << x << " " << y;
+    }
 }
 
 signed main()
@@ -101,7 +131,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    //   cin >> t;
     while (t--)
     {
         solve();

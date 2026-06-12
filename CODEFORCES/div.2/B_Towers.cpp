@@ -78,21 +78,32 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, a, b;
-    cin >> n >> a >> b;
-    vi v(n), suf(n + 1, 0);
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
-    for (int i = n - 1; i >= 0; i--)
-    {
-        suf[i] = (v[i] + suf[i + 1]);
-    }
-    int ans = suf[0] * b;
+    int n, k;
+    cin >> n >> k;
+
+    multiset<pi> m;
     for (int i = 0; i < n; i++)
     {
-        ans = min(ans, v[i] * (a + b) + (suf[i + 1] - (v[i]) * (n - i - 1)) * b);
+        int x;
+        cin >> x;
+        m.insert({x, i + 1});
     }
-    cout << ans << endl;
+    vector<pi> ans;
+    for (int i = 0; i < k; i++)
+    {
+        pi x = *m.begin(), y = *--m.end();
+        if (y.first - x.first <= 1)
+            break;
+        ans.push_back({y.second, x.second});
+        m.erase(x);
+        m.erase(y);
+        m.insert({x.first + 1, x.second});
+        m.insert({y.first - 1, y.second});
+    }
+    pi x = *m.begin(), y = *--m.end();
+    cout << y.first - x.first << " " << ans.size() << endl;
+    for (auto [u, v] : ans)
+        cout << u << " " << v << endl;
 }
 
 signed main()
@@ -101,7 +112,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    //  cin >> t;
     while (t--)
     {
         solve();

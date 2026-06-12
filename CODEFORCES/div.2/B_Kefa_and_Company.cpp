@@ -78,19 +78,23 @@ long long nPr(int n, int r)
 
 void solve()
 {
-    int n, a, b;
-    cin >> n >> a >> b;
-    vi v(n), suf(n + 1, 0);
+    int n, d;
+    cin >> n >> d;
+    vector<pi> v(n);
     for (int i = 0; i < n; i++)
-        cin >> v[i];
-    for (int i = n - 1; i >= 0; i--)
+        cin >> v[i].first >> v[i].second;
+    sort(all(v));
+    int ans = 0, c = 0, f = 0, i = 0, j = 0;
+    while (i < n)
     {
-        suf[i] = (v[i] + suf[i + 1]);
-    }
-    int ans = suf[0] * b;
-    for (int i = 0; i < n; i++)
-    {
-        ans = min(ans, v[i] * (a + b) + (suf[i + 1] - (v[i]) * (n - i - 1)) * b);
+        f += v[i].second;
+        while (v[i].first - v[j].first >= d)
+        {
+            f -= v[j].second;
+            j++;
+        }
+        ans = max(ans, f);
+        i++;
     }
     cout << ans << endl;
 }
@@ -101,7 +105,7 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
